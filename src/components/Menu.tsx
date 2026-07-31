@@ -1,6 +1,7 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react'
+import { role } from "@/lib/data";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 
 const menuItems = [
   {
@@ -117,23 +118,43 @@ const menuItems = [
   },
 ];
 
-
 const Menu = () => {
   return (
-    <div className='mt-2 text-sm'>
-      {menuItems.map(i => (
-        <div className='flex gap-2.5 flex-col items-center lg:items-start' key={i.title}>
-          <span className='text-zinc-700 font-medium mt-6 mb-1'>{i.title}</span>
-          {i.items.map(item => (
-            <Link href={item.href} key={item.label} className='flex items-center justify-center lg:justify-start gap-2 '>
-            <Image src={item.icon} alt='' width={20} height={20}/>
-            <span className='hidden lg:block font-light'>{item.label}</span>
-            </Link>
-          ))}
+    <div className="mt-1 text-sm px-2">
+      {menuItems.map((i) => (
+        <div
+          className="flex flex-col items-center lg:items-start mb-5 md:px-2"
+          key={i.title}
+        >
+          <span className="text-zinc-700 font-medium mt-1 mb-1">{i.title}</span>
+          {i.items.map((item) => {
+            if (item.visible.includes(role)) {
+              return (
+                <Link
+                  href={item.href}
+                  key={item.label}
+                  className="group flex items-center justify-center lg:justify-start w-full gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 hover:bg-violet-100"
+                >
+                  <div className="w-5 h-5 shrink-0 flex items-center justify-center">
+                    <Image
+                      src={item.icon}
+                      alt=""
+                      width={20}
+                      height={20}
+                      className="transition-transform duration-200 group-hover:scale-110"
+                    />
+                  </div>
+                  <span className="hidden lg:block font-light">
+                    {item.label}
+                  </span>
+                </Link>
+              );
+            }
+          })}
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default Menu
+export default Menu;
